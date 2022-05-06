@@ -29,11 +29,21 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
       { text: '首页', link: '/' },
       {
         text: 'Java',
-        link: '/java/', //目录页链接，此处link是vdoing主题新增的配置项，有二级导航时，可以点击一级导航跳到目录页
+        link: '/Java', //目录页链接，此处link是vdoing主题新增的配置项，有二级导航时，可以点击一级导航跳到目录页
+        items: [
+          {
+            text: 'Spring系列',
+            link: '/pages/spring/'
+          }
+        ]
       },
       {
         text: '网络',
-        link: '/ui/',
+        link: '/',
+      },
+      {
+        text: '前端',
+        link: '/'
       },
       { text: '关于', link: '/about/' },
       {
