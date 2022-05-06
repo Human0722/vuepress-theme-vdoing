@@ -1,0 +1,159 @@
+---
+title: Spring Framework 指南[03]
+categories: 
+  - Java
+description: Spring Wiki
+keywords: spring, wiki
+date: 2021-06-29 17:24:16
+permalink: /pages/2446ba/
+sidebar: auto
+tags: 
+  - 
+author: 
+  name: Xueliang
+  link: https://github.com/Human0722
+---
+>  Spring AOP 面向切面编程
+
+### 面向切面编程概述  
+AOP(Aspect-Oriented Programming) 面向切面编程是对面向对象编程的补充，在面向对象编程中，一个对象为了从外部获得额外的功能，要通过纵向的继承机制获得父类定义好的功能，而 Java 是单继承语言，所以为了扩充功能就变得非常不方便。 面向切面编程，通过横向抽取机制，可以非常灵活的为成员方法添加额外的功能。  
+
+简而言之，就是可以通过切面编程在方法执行前后、抛出异常时执行一些特定的功能。  
+
+
+#### 术语  
+
+![proxy](/images/spring/aspect.png)
+
+- 横切关注点 ： 从每个方法中抽取出来的同一类非核心业务
+
+- 切面(Aspect) ： 封装横切关注点信息的类，每个关注点体现为一个通知方法。 
+
+- 通知(Advice) ： 切面必须要完成的各个具体工作。 
+
+- 目标(Target) ： 被通知的对象。 
+
+- 代理(Proxy) ： 向目标对象应用通知之后创建的代理对象。 
+
+- 连接点(Joinpoint) ： 横切关注点在程序代码中的具体体现，对应程序执行的某个特定位置。如方法调用前、方法调用后、方法抛出异常时。
+
+- 切入点(pointcut) ： 定位连接点的方式，每个类方法都有多个连接点，切入点就是查询条件，能够定位到具体的连接点。切点通过 org.springframework.aop.Pointcut 接口进行描述，它使用类和方法作为连接点的查询条件。
+
+#### 总结  
+面向切面编程就是，将一些通用的非核心代码抽取出来放到一个类(切面)中，然后通过切入点来确定核心代码前后新增执行哪些切面中的方法。
+
+### AspectJ  
+> 一个 AOP 框架  
+
+#### 环境准备  
+- com.springsource.net.sf.cglib-xxxx.jar  
+- com.springsource.org.sopalliance-xxxx.jar  
+- com.springsource.org.aspectj.weaver-xxxx.jar
+- spring-aop-xxxx.jar  
+- spring-aspects-xxxx.jar
+
+#### 配置  
+
+**spring.xml:** 配置该项，Spring 容器会自动为匹配的 bean 创建代理。[代理模式?](/wiki/DesignPatterns/#代理模式) 
+
+```xml
+<aop:aspectj-autoproxy />
+```
+
+#### 用 AspectJ 注解声明切面  
+1. 在普通 bean 上加上 `@AspectJ` 注解，将 bean 标记为切面。  
+2. Spring IOC 初始化 AspectJ 切面以后，接下来就会为与切面相匹配的 bean 创建代理。
+3. 在切面 bean 中有很多方法，带上注解就是一个个通知。  
+4. AspectJ支持五种类型的注解：  
+ `@Before` :  前置通知注解。  
+ `@After` :  后置通知注解。  
+ `@AfterRunning` ： 返回通知注解，在 return 之后。  
+ `@AfterThrowing` ： 异常通知注解，在方法抛出异常时执行。  
+ `@Around` ： 环绕通知注解。
+
+
+### AOP 详解  
+
+#### 切入点表达式  
+> 通过切入点表达式来定位通知的生效位置, 语法如下
+
+**execution([权限修饰符][返回值类型][简单类名/全类名]\[方法名\](参数列表))**  
+
+```java
+@Aspect
+public class HandlerLogging {
+	@Before("execution(public void io.github.human0722.handle(..)")
+	public void logBefore() {
+		// doSth
+	}
+}
+```
+
+#### 连接点信息  
+通过切入点表达式可以定位到一组目标，当其中的一个目标执行的时候，会传过来一些目标的信息封装在 `Joinpoint joinpoint` 接口中。
+```java
+@Before("execution(public void io.github.human0722.handle(..)")
+public void logBefore(Joinpoint jp) {}
+```
+#### 通知详解  
+
+- `前置通知` : 在连接点执行前的通知。 
+- `后置通知` : 在连接点完成之后的通知。执行完成或者抛出异常之后。
+- `返回通知` : 只在返回后执行，抛出异常时不执行；配置 returning 属性，可以捕获返回值； 使用 returning 属性时，要把默认属性 pointcut 加上；  
+```java
+@AfterReturning(pointcou="execution(* * *.*(..))", returning = "result")
+public void logAfterRuning(JoinPoint joinPoint, Object result) {}
+```
+- `异常通知` :  连接点抛出异常的时候会被执行；可以使用 throwing 属性捕获抛出的异常；可以用 Throwable 来捕获所有的异常，也可以指定异常来只处理该异常及其子类；
+```java
+@AfterThrowing(pointcut="execution(* * *.*(..))", throwing="e")
+public void logAfterThrowing(JoinPoint joinpoint, ThrowAble e) {}
+```
+- `环绕通知` ： 环绕通知控制权比较全，甚至可以决定是否执行连接点；环绕通知获得的参数类型是 ProceedingJoinPoint 接口；接口中有 proceed() 方法需要显示调用来执行被代理的方法；环绕通知方法要返回 proceed() 的结果。
+```java
+@Around("exection=(* *.*(..))")
+public void logAround(ProceedingJoinPoint joinPoint) throws Throwable {
+	joinPoint.proceed();
+}
+```
+
+#### 切入点表达式的重用  
+先定义一个切入点，然后后面的通知直接引用这个切入点。  
+
+```java
+// 定义切入点
+@Pointcut("execution(* *.*(..))")
+private void loggingOperation(){}
+@Before("loggingOperation()")
+public void logBefore(){}
+@AfterReturning("loggingOperation()")
+public void logAfterReturning(){}
+```
+
+#### 切面的优先级
+如果一个连接点上有多个切面作用，这些切面的作用顺序是不确定的。可以通过 `@Order`注解来指定作用顺序，注解的值越小，优先级越高。
+
+```java
+@Aspect
+@Order(0)
+public class LogAspect {}
+```
+
+### Last  
+Spring 除了支持 AspectJ AOP 以外，原生支持基于 xml 配置的切面。但是远不如注解方式来的直接。不再赘述。  
+
+**spring.xml:**
+
+```xml
+<!--声明切面-->
+<bean id="loggingAspect" class="io.github.human0722.LoggingAspect" />
+<!--配置-->
+<aop:config>
+	<!-- 定义连接点 -->
+	<aop:pointcut id="test" expression="execution(* *.*(..))" />
+	<!-- 定义通知和连接点的对应规则-->
+	<aop:aspect id="myLoggingAspect" ref="loggingAspect">
+		<aop:after method="logBefore" pointcut-ref="test">
+	</aop:aspect>
+</aop:config>
+```

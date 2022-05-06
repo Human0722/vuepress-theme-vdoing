@@ -1,0 +1,154 @@
+---
+title: Spring Framework 指南[04]
+categories: 
+  - Java
+description: Spring Wiki
+keywords: spring, wiki
+date: 2021-06-30 17:24:16
+permalink: /pages/97fe13/
+sidebar: auto
+tags: 
+  - 
+author: 
+  name: Xueliang
+  link: https://github.com/Human0722
+---
+> JDBC Template   
+
+Spring 在 JDBC API 上定义了一个抽象层，为不同类型的 JDBC 操作提供模板方法。  
+
+### 环境搭建  
+
+#### 运行架构
+
+```txt
+        	+------------------------------+                           
+           	| Spring Framework             |                           
+           	|                              |                           
+           	|           +--------------+   |                           
+           	|           |JDBD Template |   |                           
+           	|           +--------------+   |                           
+           	+------------------------------+                           
+           	+------------------------------+                           
+           	|        Druid Datasource      |                           
+           	+------------------------------+                           
+           	+------------------------------+                           
+           	|                              |                           
+           	|            JDBC              |                           
+           	+------------------------------+                           
+           	+-------------+  +-------------+                           
+           	| MySQL Driver|  | Oracle Driver                           
+           	+-------------+  +-------------+                           
+           	+-------------+  +-------------+                           
+           	|             |  |             |                           
+           	|   MySQL     |  |   Oracle    |                           
+           	|             |  |             |                           
+           	+-------------+  +-------------+      
+```  
+
+#### 包依赖  
+**For IOC**  
+- commons-logging-xxxx.jar
+- spring-beans-xxxx.jar
+- spring-context-xxxx.jar
+- spring-core-xxxx.jar
+- spring-expression-xxx.jar  
+
+**For Jdbc Template**  
+- spring-jdbc-xxxx.jar
+- spring-orm-xxx.jar
+- spring-tx.xxxx.jar
+
+**For Driver and  Datasource**  
+- druid-xxxx.jar
+- mysql-connector-java-xxxx.jar  
+
+### 使用步骤  
+
+#### 数据库信息配置
+> 配置正确连接到数据库  
+
+**mysql.properties**  
+
+```properties
+user=root
+password=root
+jdbcUrl=jdbc:mysql:///query_data
+driverClass=com.mysql.jdbc.Driver
+
+initialPoolSize=30
+minPoolSize=10
+maxPoolSize=100
+acquireIncrement=5
+maxStatements=1000
+maxStatementsPerConnection=10
+```  
+
+
+#### 核心 bean 配置  
+
+**Datasource Bean**  
+
+```xml
+<context:property-placeholder location="classpath:jdbc.properties"/>
+
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+	<property name="user" value="${user}"/>
+	<property name="password" value="${password}"/>
+	<property name="jdbcUrl" value="${jdbcUrl}"/>
+	<property name="driverClass" value="${driverClass}"/>
+	<property name="initialPoolSize" value="${initialPoolSize}"/>
+	<property name="minPoolSize" value="${minPoolSize}"/>
+	<property name="maxPoolSize" value="${maxPoolSize}"/>
+	<property name="acquireIncrement" value="${acquireIncrement}"/>
+	<property name="maxStatements" value="${maxStatements}"/>
+	<property name="maxStatementsPerConnection" 
+		  value="${maxStatementsPerConnection}"/>
+</bean>
+```  
+
+**Jdbc Template Bean**  
+
+```xml
+<bean id="template" 
+class="org.springframework.jdbc.core.JdbcTemplate">
+	<property name="dataSource" ref="dataSource"/>
+</bean>
+```  
+
+#### CRUD
+
+```java
+// String 为 SQL 语句
+// Object 封装了执行所需要的参数
+// RowMapper 封装了查询结果
+// ********************************************************
+// 增删改单条
+jdbcTemplate.update(String, Object...)
+// 批量增删改
+jdbcTemplate.batchUpdate(String, List<Object>[])
+// 查询单条
+jdbcTemplate.queryForObject(String, RowMapper<T>, Object)
+// 批量查询
+jdbcTemplate.query(String, RowMapper<T>, Object...)
+// 查询字段值
+jdbcTemplate.queryForObject(String, Class, Object...)
+```
+#### 封装 Dao  
+
+```java
+@Repository
+public class StudentDao {
+
+	@Autowired
+	private JbdcTemplate jdbcTemplate;
+
+	public Student get(Integer id) {}
+}
+```
+
+
+
+
+
+
