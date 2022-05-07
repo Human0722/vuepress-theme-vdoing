@@ -3,7 +3,7 @@ title: 关于本站
 date: 2022-05-06 22:28:03
 permalink: /about/
 categories:
-  - singlePage
+  - Others
 tags:
   -
 author:
