@@ -1,15 +1,15 @@
 ---
 title: 那些用着还不错的前端 UI 组件
-categories: 
-  - JavaScript
+categories:
+  - Javascript
 description: 一些不错的前端 UI 组件
 keywords: javascript, css
 date: 2019-10-11 17:24:16
 permalink: /pages/b1a52b/
 sidebar: auto
-tags: 
-  - 
-author: 
+tags:
+  -
+author:
   name: Xueliang
   link: https://github.com/Human0722
 ---

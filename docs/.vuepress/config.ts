@@ -29,11 +29,16 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
       { text: '首页', link: '/' },
       {
         text: 'Java',
-        link: '/Java', //目录页链接，此处link是vdoing主题新增的配置项，有二级导航时，可以点击一级导航跳到目录页
+        link: '/java/',
         items: [
           {
-            text: 'Spring系列',
-            link: '/pages/spring/'
+            text: 'Spring',
+            items: [
+              {
+                text: 'Spring 笔记',
+                link: '/java/spring/'
+              }
+            ]
           }
         ]
       },
@@ -45,9 +50,9 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
         text: '前端',
         link: '/'
       },
-      { text: '关于', link: '/about/' },
+      { text: '语言', link: '/about/' },
       {
-        text: '收藏',
+        text: '导航',
         link: '/pages/beb6c0bd8a66cea6/',
         // items: [
         //   { text: '网站', link: '/pages/beb6c0bd8a66cea6/' },
