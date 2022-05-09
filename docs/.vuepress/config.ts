@@ -44,16 +44,35 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
       },
       {
         text: '网络',
-        link: '/',
+        link: '/network',
+        items: [
+          {
+            text: 'CCNA',
+            link: '/network/ccna/'
+          }
+        ]
       },
       {
         text: '前端',
-        link: '/'
+        link: '/js',
+        items: [
+          {
+            text: 'Vue',
+            link: '/js/vue/',
+            items: [
+              {
+                text: 'Vue2',
+                link: '/js/vue/2/'
+              }
+            ]
+          }
+        ]
+
       },
-      { text: '语言', link: '/about/' },
+      { text: '语言', link: '/' },
       {
         text: '导航',
-        link: '/pages/beb6c0bd8a66cea6/',
+        link: '/pages/nav/',
         // items: [
         //   { text: '网站', link: '/pages/beb6c0bd8a66cea6/' },
         //   { text: '资源', link: '/pages/eee83a9211a70f9d/' },
