@@ -35,8 +35,16 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
             text: 'Spring',
             items: [
               {
-                text: 'Spring 笔记',
-                link: '/java/spring/'
+                text: 'Spring Framework',
+                link: '/java/springframework/'
+              },
+              {
+                text: 'Spring Boot',
+                link: '/java/springboot/'
+              },
+              {
+                text: 'Spring Cloud',
+                link: '/java/springcloud/'
               }
             ]
           }

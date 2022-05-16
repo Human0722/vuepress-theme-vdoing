@@ -41,3 +41,12 @@ git push -f $githubUrl master # 推送到github gh-pages分支
 
 cd -
 rm -rf docs/.vuepress/dist
+
+#Operation on Windows
+#cd docs/.vuepress/dist
+#git init
+#git add -A
+#git commit -m "xxx"
+#git remote add origin https://github.com/Human0722/Human0722.github.io
+#git push -f -u origin master
+#rm -rf docs/.vuepress/dist
