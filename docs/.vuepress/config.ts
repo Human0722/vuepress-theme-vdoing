@@ -77,7 +77,7 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
         ]
 
       },
-      { text: '语言', link: '/' },
+      { text: '日本语', link: '/pages/japanese/' },
       {
         text: '导航',
         link: '/pages/nav/',

@@ -31,5 +31,11 @@ author:
   link: http://www.xbug.me/
   bgColor: '#FCDBA0'
   textColor: '#A05F2C'
+- name: vdoing
+  desc: 本博客主题文档
+  avatar:  https://cdn.jsdelivr.net/gh/xugaoyi/image_store/blog/20200409124835.png
+  link: https://doc.xugaoyi.com/pages/d0d7eb/
+  bgColor: '#FCDBA0'
+  textColor: '#A05F2C'
 ```
 :::
