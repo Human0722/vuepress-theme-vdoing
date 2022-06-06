@@ -37,5 +37,10 @@ author:
   link: https://doc.xugaoyi.com/pages/d0d7eb/
   bgColor: '#FCDBA0'
   textColor: '#A05F2C'
+- name: EBook
+  desc: 编程经验电子书
+  link: https://goalkicker.com/
+  bgColor: '#FCDBA0'
+  textColor: '#A05F2C'
 ```
 :::
