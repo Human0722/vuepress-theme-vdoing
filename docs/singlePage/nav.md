@@ -42,5 +42,11 @@ author:
   link: https://goalkicker.com/
   bgColor: '#FCDBA0'
   textColor: '#A05F2C'
+- name: Picx 
+  desc: Github 图床
+  avatar: 
+  link: https://picx.xpoet.cn/#/upload
+  bgColor: '#FCDBA0'
+  textColor: '#A05F2c'
 ```
 :::
