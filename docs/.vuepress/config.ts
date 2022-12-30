@@ -51,8 +51,8 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
         ]
       },
       {
-        text: '网络',
-        link: '/network',
+        text: '408',
+        link: '/cs',
         items: [
           {
             text: 'CCNA',

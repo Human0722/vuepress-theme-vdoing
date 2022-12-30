@@ -12,9 +12,9 @@ features: # 可选的
     details: Java 生态
     link: /Java/ # 可选
     imgUrl: /img/java.png # 可选
-  - title: 网络
-    details: 网络设备 网络编程
-    link: /network/
+  - title: 408
+    details: 编程核心 内功修炼
+    link: /cs/
     imgUrl: /img/switch.png
   - title: Linux
     details: Linux 各种好玩
