@@ -319,6 +319,7 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
         },
       },
     ],
+    'vuepress-plugin-mermaidjs'
   ],
 
   markdown: {
